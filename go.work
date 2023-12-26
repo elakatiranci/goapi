@@ -1,0 +1,11 @@
+go 1.18
+
+use (
+	./packages/api
+	./packages/clients/user
+	./packages/libs/models
+	./packages/proto/user
+	./packages/services/user-service
+	./packages/clients/community-post
+	./packages/proto/community-post
+)

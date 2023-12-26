@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "zeelso.com/proto/user/v1";
+
+service UserService {
+    rpc CreateUser(CreateUserRequest) returns (UserResponse);
+    rpc GetUser(GetUserRequest) returns (UserResponse);
+    rpc UpdateUser(UpdateUserRequest) returns (UserResponse);
+    rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+    rpc BulkDeleteUsers(BulkDeleteUsersRequest) returns (BulkDeleteUsersResponse);
+    rpc BulkUpdateUsers(BulkUpdateUsersRequest) returns (BulkUpdateUsersResponse);
+    rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
+    rpc SuspendUser(SuspendUserRequest) returns (SuspendUserResponse);
+}
+
+// User model
+message User {
+    string id = 1;
+    string firstname = 2;
+    string lastname = 3;
+    string fullname = 4;
+    string email = 5;
+    bool suspended = 6;
+}
+
+// Request & Response models
+
+message CreateUserRequest {
+    User user = 1;
+}
+
+message GetUserRequest {
+    string id = 1;
+}
+
+message UpdateUserRequest{
+    string id = 1;
+    UserUpdateData userData = 2;
+}
+
+message UpdateUserResponse{
+    User user = 1;
+    string message = 2;
+}
+
+message DeleteUserRequest {
+    string id = 1;
+}
+
+message DeleteUserResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message BulkDeleteUsersRequest {
+    repeated string ids = 1;
+}
+
+message BulkDeleteUsersResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message BulkUpdateUsersRequest {
+    repeated string ids = 1;
+    UserUpdateData userData = 2;
+}
+
+message BulkUpdateUsersResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message ListUsersRequest {
+    int32 page = 1;
+    int32 limit = 2;
+    string sortBy = 3;  // Example: "firstname"
+    string order = 4;   // Example: "asc" or "desc"
+}
+
+message Pagination {
+    int32 currentPage = 1;
+    int32 totalPages = 2;
+    int32 totalItems = 3;
+    int32 itemsPerPage = 4;
+}
+
+message ListUsersResponse {
+    repeated User users = 1;
+    string message = 2;
+    Pagination pagination = 3;
+}
+
+message UserResponse {
+    User user = 1;
+    string message = 2;
+}
+
+message ErrorResponse {
+    int32 code = 1;
+    string detail = 2;
+}
+
+message SuspendUserRequest {
+    string id = 1;
+}
+
+message SuspendUserResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message UserUpdateData {
+    string firstname = 1;
+    string lastname = 2;
+    string email = 3;
+    bool suspended = 4;
+}
+
